@@ -24,7 +24,7 @@ namespace ShoppingCartTests;
         public void CalculateItemsPrice_ValidItemIds_ReturnsCorrectTotalPrice()
         {
             // Arrange
-            string itemIds = "ABCD";
+            var itemIds = "ABCD";
             var itemA = new Item { Id = 'A', Price = 5 };
             var itemB = new Item { Id = 'B', Price = 3 };
             var itemC = new Item { Id = 'C', Price = 2 };
@@ -38,10 +38,10 @@ namespace ShoppingCartTests;
             // You can add mock setup for the offer repository if needed
 
             // Act
-            decimal totalPrice = _cartService.CalculateItemsPrice(itemIds);
+            var totalPrice = _cartService.CalculateItemsPrice(itemIds);
 
             // Assert
-            decimal expectedTotalPrice = 5 + 3 + 2 + 1;
+            var expectedTotalPrice = 5 + 3 + 2 + 1;
             Assert.AreEqual(expectedTotalPrice, totalPrice);
         }
 
@@ -49,7 +49,7 @@ namespace ShoppingCartTests;
         public void CalculateItemsPrice_InvalidItemId_ThrowsArgumentException()
         {
             // Arrange
-            string itemIds = "ABCDE";
+            var itemIds = "ABCDE";
             var itemA = new Item { Id = 'A', Price = 5 };
             _mockItemRepository.Setup(x => x.GetItemById('A')).Returns(itemA);
 

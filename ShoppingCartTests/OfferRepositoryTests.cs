@@ -18,7 +18,7 @@ public class OfferRepositoryTests
     public void GetAllOffers_ReturnsAllOffers()
     {
         // Act
-        List<Offer> offers = _offerRepository.GetAllOffers();
+        var offers = _offerRepository.GetAllOffers();
 
         // Assert
         Assert.AreEqual(2, offers.Count);
@@ -30,10 +30,10 @@ public class OfferRepositoryTests
     public void GetOfferByItemId_WithExistingItemId_ReturnsOffer()
     {
         // Arrange
-        char itemId = 'A';
+        var itemId = 'A';
 
         // Act
-        Offer? offer = _offerRepository.GetOfferByItemId(itemId);
+        var offer = _offerRepository.GetOfferByItemId(itemId);
 
         // Assert
         Assert.IsNotNull(offer);
@@ -46,7 +46,7 @@ public class OfferRepositoryTests
     public void GetOfferByItemId_WithNonExistingItemId_ReturnsNull()
     {
         // Arrange
-        char itemId = 'C';
+        var itemId = 'C';
 
         // Act
         Offer? offer = _offerRepository.GetOfferByItemId(itemId);
