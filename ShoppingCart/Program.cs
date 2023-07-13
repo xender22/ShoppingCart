@@ -1,4 +1,5 @@
 using ShoppingCart.Repositories;
+using ShoppingCart.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IOfferRepository, OfferRepository>();
 builder.Services.AddSingleton<IItemRepository, ItemRepository>();
+builder.Services.AddSingleton<ICartService, CartService>();
 
 var app = builder.Build();
 

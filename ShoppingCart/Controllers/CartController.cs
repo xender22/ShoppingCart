@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ShoppingCart.Repositories;
+using ShoppingCart.Services;
 
 namespace ShoppingCart.Controllers
 {
@@ -7,11 +7,11 @@ namespace ShoppingCart.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly IItemRepository _itemRepository;
+        private readonly ICartService _cartService;
 
-        public CartController(IItemRepository itemRepository)
+        public CartController(ICartService cartService)
         {
-            _itemRepository = itemRepository;
+            _cartService = cartService;
         }
         
         [HttpPost]
@@ -19,7 +19,7 @@ namespace ShoppingCart.Controllers
         {
             try
             {
-                var result = _itemRepository.CalculateItemsPrice(items);
+                var result = _cartService.CalculateItemsPrice(items);
                 return Ok(result);
             }
             catch (ArgumentException ex)

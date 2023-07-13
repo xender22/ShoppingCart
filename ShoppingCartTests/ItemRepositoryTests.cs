@@ -1,5 +1,3 @@
-using Moq;
-using ShoppingCart.Models;
 using ShoppingCart.Repositories;
 
 namespace ShoppingCartTests;
@@ -8,50 +6,54 @@ namespace ShoppingCartTests;
 public class ItemRepositoryTests
 {
     private ItemRepository _itemRepository;
-    private Mock<IOfferRepository> _offerRepositoryMock;
 
     [SetUp]
-    public void SetUp()
+    public void Setup()
     {
-        _offerRepositoryMock = new Mock<IOfferRepository>();
-        _itemRepository = new ItemRepository(_offerRepositoryMock.Object);
+        _itemRepository = new ItemRepository();
     }
 
     [Test]
-    public void CalculateItemsPrice_WithValidItems_ReturnsCorrectTotalPrice()
+    public void GetAllItems_ReturnsAllItems()
     {
         // Arrange
-        string itemIds = "ABAC";
 
         // Act
-        var totalPrice = _itemRepository.CalculateItemsPrice(itemIds);
+        var items = _itemRepository.GetAllItems();
 
         // Assert
-        Assert.AreEqual(15, totalPrice);
+        Assert.AreEqual(4, items.Count);
+        Assert.IsTrue(items.Exists(i => i.Id == 'A' && i.Price == 5));
+        Assert.IsTrue(items.Exists(i => i.Id == 'B' && i.Price == 3));
+        Assert.IsTrue(items.Exists(i => i.Id == 'C' && i.Price == 2));
+        Assert.IsTrue(items.Exists(i => i.Id == 'D' && i.Price == 1));
     }
 
     [Test]
-    public void CalculateItemsPrice_WithInvalidItem_ThrowsArgumentException()
+    public void GetItemById_ExistingId_ReturnsItem()
     {
         // Arrange
-        string itemIds = "ABCDX";
-
-        // Act & Assert
-        Assert.Throws<ArgumentException>(() => _itemRepository.CalculateItemsPrice(itemIds));
-    }
-
-    [Test]
-    public void CalculateItemsPrice_WithOffer_ReturnsCorrectTotalPrice()
-    {
-        // Arrange
-        string itemIds = "AAA";
-        var offer = new Offer { ItemCount = 3, SpecialPrice = 13 };
-        _offerRepositoryMock.Setup(r => r.GetOfferByItemId('A')).Returns(offer);
+        var id = 'B';
 
         // Act
-        var totalPrice = _itemRepository.CalculateItemsPrice(itemIds);
+        var item = _itemRepository.GetItemById(id);
 
         // Assert
-        Assert.AreEqual(13, totalPrice);
+        Assert.IsNotNull(item);
+        Assert.AreEqual(id, item.Id);
+        Assert.AreEqual(3, item.Price);
+    }
+
+    [Test]
+    public void GetItemById_NonExistingId_ReturnsNull()
+    {
+        // Arrange
+        var id = 'Z';
+
+        // Act
+        var item = _itemRepository.GetItemById(id);
+
+        // Assert
+        Assert.IsNull(item);
     }
 }
