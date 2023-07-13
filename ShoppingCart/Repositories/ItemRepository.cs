@@ -64,7 +64,7 @@ public class ItemRepository : IItemRepository
             if (itemCounter.Item?.Offer != null)
             {
                 var normalRateMultiplier = itemCounter.Count % itemCounter.Item.Offer.ItemCount;
-                var offerMultiplier = (int) Math.Floor((decimal)(itemCounter.Count / itemCounter.Item.Offer.ItemCount));
+                var offerMultiplier = (int) Math.Floor((decimal)itemCounter.Count / itemCounter.Item.Offer.ItemCount);
                 var normalSum = normalRateMultiplier * itemCounter.Item.Price;
                 var offerSum = offerMultiplier * itemCounter.Item.Offer.SpecialPrice;
 
